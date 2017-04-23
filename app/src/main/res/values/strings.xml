@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">ElectricApp</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="bandeira_vermelha">Bandeira vermelha</string>
+    <string name="Ambientes">Ambientes</string>
+    <string name="quarto1">Quarto 1</string>
+    <string name="quarto2">Quarto 2</string>
+    <string name="sala">Sala</string>
+    <string name="banheiro">Banheiro</string>
+    <string name="cozinha">Cozinha</string>
+    <string name="media">Média</string>
+    <string name="historico">Histórico</string>
+    <string name="ultimaLeitura">Última leitura</string>
+    <string name="proximaLeitura">Próxima leitura</string>
+    <string name="valorAtual">Valor atual</string>
+    <string name="kW">kW</string>
+    <string name="consumo">Consumo</string>
+    <string name="valorAPagar">Valor a pagar</string>
+    <string name="atualizar">Atualizar</string>
+    <string name="garagem">Garagem</string>
+    <string name="ambiente1">Ambiente 1</string>
+    <string name="ambiente2">Ambiente 2</string>
+    <string name="ambiente3">Ambiente 3</string>
+    <string name="ambiente4">Ambiente 4</string>
+    <string name="ambiente5">Ambiente 5</string>
+    <string name="ambiente6">Ambiente 6</string>
+    <string name="continuarConectado">Continuar conectado</string>
+</resources>

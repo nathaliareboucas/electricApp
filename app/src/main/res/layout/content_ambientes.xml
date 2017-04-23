@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".AmbientesActivity"
+    tools:showIn="@layout/app_bar_ambientes">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/customborder"
+            android:padding="10dp"
+            android:layout_marginTop="30dp"
+            android:stretchColumns="0">
+
+            <TableRow
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:text="@string/ambiente1"
+                    android:padding="15dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnEdt1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_create_black_36dp"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"/>
+
+                <ImageButton
+                    android:id="@+id/lampada1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/lampada_36_36"
+                    android:padding="5dp"
+                    android:background="@android:color/darker_gray"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:text="@string/ambiente2"
+                    android:padding="15dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnEdt2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_create_black_36dp"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"/>
+
+                <ImageButton
+                    android:id="@+id/lampada2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/lampada_36_36"
+                    android:padding="5dp"
+                    android:background="@android:color/darker_gray"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:text="@string/ambiente3"
+                    android:padding="15dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnEdt3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_create_black_36dp"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"/>
+
+                <ImageButton
+                    android:id="@+id/lampada3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/lampada_36_36"
+                    android:padding="5dp"
+                    android:background="@android:color/darker_gray"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:text="@string/ambiente4"
+                    android:padding="15dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnEdt4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_create_black_36dp"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"/>
+
+                <ImageButton
+                    android:id="@+id/lampada4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/lampada_36_36"
+                    android:padding="5dp"
+                    android:background="@android:color/darker_gray"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:text="@string/ambiente5"
+                    android:padding="15dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnEdt5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_create_black_36dp"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"/>
+
+                <ImageButton
+                    android:id="@+id/lampada5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/lampada_36_36"
+                    android:padding="5dp"
+                    android:background="@android:color/darker_gray"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:text="@string/ambiente6"
+                    android:padding="15dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnEdt6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_create_black_36dp"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"/>
+
+                <ImageButton
+                    android:id="@+id/lampada6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/lampada_36_36"
+                    android:padding="5dp"
+                    android:background="@android:color/darker_gray"/>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+</LinearLayout>
