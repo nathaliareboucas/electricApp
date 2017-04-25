@@ -95,12 +95,6 @@ public class ConsumoActivity extends AppCompatActivity
 
         ultimaLeitura();
         consumoTotal();
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         cosumoMes();
         dialog.dismiss();
     }

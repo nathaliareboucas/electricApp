@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
                 // Esse método será executado sempre que o timer acabar
                 // E inicia a activity principal
                 if (verificaLogin()) {
-                    Intent i = new Intent(SplashActivity.this, ConsumoActivity.class);
+                    Intent i = new Intent(SplashActivity.this, DadosIniciaisActivity.class);
                     i.putExtra("base_url", base_url);
                     startActivity(i);
                     finish();

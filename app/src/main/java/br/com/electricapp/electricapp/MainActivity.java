@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         if (verificaCheck(checkLogin)) {
                             salvaUser(base_url, senha);
                         }
-                        Intent it = new Intent(MainActivity.this, ConsumoActivity.class);
+                        Intent it = new Intent(MainActivity.this, DadosIniciaisActivity.class);
                         it.putExtra("base_url",base_url);
                         startActivity(it);
                     }else {

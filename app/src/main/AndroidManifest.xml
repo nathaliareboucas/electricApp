@@ -19,12 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".ConsumoActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AmbientesActivity"
             android:label="@string/Ambientes"
@@ -33,6 +32,10 @@
             android:name=".HistoricoActivity"
             android:label="@string/historico"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DadosIniciaisActivity"
+            android:label="@string/title_activity_dados_iniciais"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

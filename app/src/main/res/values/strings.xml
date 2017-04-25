@@ -29,4 +29,10 @@
     <string name="ambiente5">Ambiente 5</string>
     <string name="ambiente6">Ambiente 6</string>
     <string name="continuarConectado">Continuar conectado</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_dados_iniciais">ElectricApp</string>
+    <string name="dadosIniciais">Preencha os campos a seguir com os dados da sua última fatuda e com o valor atual marcado no medidor de sua concessionária de energia elétrica.</string>
+    <string name="dataUltimaLeitura">Data última leitur: </string>
+    <string name="valorUltimaLeitura">Valor última leitura: </string>
+    <string name="valorMedidor">Valor medidor: </string>
 </resources>

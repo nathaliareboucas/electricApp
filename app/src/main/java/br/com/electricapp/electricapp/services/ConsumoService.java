@@ -24,5 +24,6 @@ public interface ConsumoService {
     @POST("consumo/mensal")
     Call<BigDecimal> consumoMes(@Body Leitura leitura);
 
-
+    @POST("consumo")
+    Call<Void> salvaConsumo(@Body Consumo consumo);
 }
