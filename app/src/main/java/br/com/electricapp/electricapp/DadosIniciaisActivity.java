@@ -36,24 +36,14 @@ public class DadosIniciaisActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.dados_iniciais_act);
 
-        it = new Intent(DadosIniciaisActivity.this, ConsumoActivity.class);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         Intent itn = getIntent();
         Bundle params = itn.getExtras();
         base_url = params.getString("base_url");
-
-        dialog = new ProgressDialog(DadosIniciaisActivity.this);
-        dialog.setMessage("Carregando...");
-        dialog.setCancelable(false);
-        dialog.show();
-
-        getLeituras();
-    }
-
-    public void exibeLayout() {
-        setContentView(R.layout.dados_iniciais_act);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         edtDataUltimaLeitura = (EditText)findViewById(R.id.dataUltimaLeitura);
         edtValorUltimaLeitura = (EditText)findViewById(R.id.valorUltimaLeitura);
@@ -67,6 +57,9 @@ public class DadosIniciaisActivity extends AppCompatActivity {
                     String mensagem = "Todos os campos devem ser preenchidos";
                     Toast.makeText(getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
                 } else {
+                    dialog.setMessage("Carregando...");
+                    dialog.setCancelable(false);
+                    dialog.show();
                     salvaUltimaLeitura();
                     salvaConsumoAcumulado();
                     salvaConsumoDiferencaDias();
@@ -76,43 +69,14 @@ public class DadosIniciaisActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-                    Intent it = new Intent(getBaseContext(), ConsumoActivity.class);
-                    it.putExtra("base_url", base_url);
-                    startActivity(it);
+                    if (dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
+                        Intent it = new Intent(getBaseContext(), ConsumoActivity.class);
+                        it.putExtra("base_url", base_url);
+                        startActivity(it);
+                        finish();
                 }
-            }
-        });
-    }
-
-    public void salvaConsumoDiferencaDias() {
-        Gson gson = new GsonBuilder().setLenient().create();
-        OkHttpClient client = new OkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(base_url)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        Consumo consumoDiferencaDias = new Consumo();
-        BigDecimal valorDoMedidor = new BigDecimal(edtValorMedidor.getText().toString());
-        consumoDiferencaDias.setValor(valorDoMedidor.subtract(
-                new BigDecimal(edtValorUltimaLeitura.getText().toString())));
-
-        ConsumoService consumoService = retrofit.create(ConsumoService.class);
-        Call<Void> salvarConsumoDiferencaDias = consumoService.salvaConsumo(consumoDiferencaDias);
-
-        salvarConsumoDiferencaDias.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getBaseContext(), "Erro ao salvar o valor do consumo da diferença dos dias", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                System.out.println(t.getMessage());
             }
         });
     }
@@ -137,16 +101,22 @@ public class DadosIniciaisActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (!response.isSuccessful()) {
+                    if (dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
                     Toast.makeText(getBaseContext(), "Erro ao salvar última leitura", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                if (dialog.isShowing())
+                    dialog.dismiss();
+
                 System.out.println(t.getMessage());
+                Toast.makeText(getBaseContext(), "Erro na conexão", Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     public void salvaConsumoAcumulado() {
@@ -168,16 +138,63 @@ public class DadosIniciaisActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (!response.isSuccessful()) {
+                    if (dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
                     Toast.makeText(getBaseContext(), "Erro ao salvar valor de consumo acumulado", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
                 System.out.println(t.getMessage());
+                Toast.makeText(getBaseContext(), "Erro na conexão", Toast.LENGTH_LONG).show();
             }
         });
 
+    }
+
+    public void salvaConsumoDiferencaDias() {
+        Gson gson = new GsonBuilder().setLenient().create();
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(base_url)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        Consumo consumoDiferencaDias = new Consumo();
+        BigDecimal valorDoMedidor = new BigDecimal(edtValorMedidor.getText().toString());
+        consumoDiferencaDias.setValor(valorDoMedidor.subtract(
+                new BigDecimal(edtValorUltimaLeitura.getText().toString())));
+
+        ConsumoService consumoService = retrofit.create(ConsumoService.class);
+        Call<Void> salvarConsumoDiferencaDias = consumoService.salvaConsumo(consumoDiferencaDias);
+
+        salvarConsumoDiferencaDias.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
+                    Toast.makeText(getBaseContext(), "Erro ao salvar o valor do consumo da diferença dos dias",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                System.out.println(t.getMessage());
+                Toast.makeText(getBaseContext(), "Erro na conexão", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public boolean verificaCampos() {
@@ -195,50 +212,5 @@ public class DadosIniciaisActivity extends AppCompatActivity {
             campos = true;
         }
         return campos;
-    }
-
-
-    public void getLeituras() {
-        Gson gson = new GsonBuilder().setLenient().create();
-        OkHttpClient client = new OkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(base_url)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        LeituraService leituraService = retrofit.create(LeituraService.class);
-        Call<List<Leitura>> listarLeituras = leituraService.listar();
-
-        listarLeituras.enqueue(new Callback<List<Leitura>>() {
-            @Override
-            public void onResponse(Call<List<Leitura>> call, Response<List<Leitura>> response) {
-                if (!response.isSuccessful()) {
-                    if (dialog.isShowing()) {
-                        dialog.dismiss();
-                    }
-                    Toast.makeText(getBaseContext(), "Erro na resposta", Toast.LENGTH_LONG).show();
-                } else {
-                    List<Leitura> leituras = response.body();
-                    if (!leituras.isEmpty()) {
-                        it.putExtra("base_url", base_url);
-                        startActivity(it);
-                        finish();
-                    } else {
-                        dialog.dismiss();
-                        exibeLayout();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Leitura>> call, Throwable t) {
-                if (dialog.isShowing())
-                    dialog.dismiss();
-
-                System.out.println(t.getMessage());
-                Toast.makeText(getBaseContext(), "Erro na conexão", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 }

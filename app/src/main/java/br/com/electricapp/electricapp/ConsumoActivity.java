@@ -3,7 +3,10 @@ package br.com.electricapp.electricapp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -37,14 +40,18 @@ public class ConsumoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     private ProgressDialog dialog;
-    private TextView txtUltimaLeitura;
-    private TextView txtProximaLeitura;
     private TextView txtConsumoTotal;
+    private TextView txtProximaLeitura;
+    private TextView txtBandeira;
     private TextView txtValorTarifa;
     private TextView txtConsumMes;
     private TextView txtValorAPagar;
-    private String dataUltimaLeitura;
+    private ImageButton imgBtnBandeiraVermelha;
+    private ImageButton imgBtnBandeiraAmarela;
+    private ImageButton imgBtnBandeiraVerde;
 
+    BigDecimal consumoTot;
+    Leitura leituraMedicao;
     public static String base_url;
 
     @Override
@@ -63,6 +70,10 @@ public class ConsumoActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Intent it = getIntent();
+        Bundle params = it.getExtras();
+        base_url = params.getString("base_url");
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,16 +84,61 @@ public class ConsumoActivity extends AppCompatActivity
             }
         });
 
-        txtUltimaLeitura = (TextView)findViewById(R.id.txtUltimaLeitura);
-        txtProximaLeitura = (TextView)findViewById(R.id.txtProximaLeitura);
         txtConsumoTotal = (TextView)findViewById(R.id.txtConsumoTotal);
+        txtProximaLeitura = (TextView)findViewById(R.id.txtProximaLeitura);
+        txtBandeira = (TextView)findViewById(R.id.txtBandeira);
         txtValorTarifa = (TextView)findViewById(R.id.txtValorTarifa);
         txtConsumMes = (TextView)findViewById(R.id.txtConsumoMes);
         txtValorAPagar = (TextView)findViewById(R.id.txtValorAPagar);
+        imgBtnBandeiraVermelha = (ImageButton)findViewById(R.id.imgBtnBandeiraVermelha);
+        imgBtnBandeiraAmarela = (ImageButton)findViewById(R.id.imgBtnBandeiraAmarela);
+        imgBtnBandeiraVerde = (ImageButton)findViewById(R.id.imgBtnBandeiraVerde);
 
-        Intent it = getIntent();
-        Bundle params = it.getExtras();
-        base_url = params.getString("base_url");
+        imgBtnBandeiraVermelha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtBandeira.setText("Vermelha");
+                txtValorTarifa.setText("0.73033");
+
+                BigDecimal valorTarifa = new BigDecimal(txtValorTarifa.getText().toString());
+                BigDecimal valorConsumoMes = new BigDecimal(txtConsumMes.getText().toString());
+                BigDecimal valorPagar = valorTarifa.multiply(valorConsumoMes);
+                String resultado = valorPagar.toString().format("%.2f", valorPagar);
+                txtValorAPagar.setTypeface(null, Typeface.BOLD);
+                txtValorAPagar.setText(resultado);
+            }
+        });
+
+        imgBtnBandeiraAmarela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtBandeira.setText("Amarela ");
+                txtValorTarifa.setText("0.72452");
+
+                BigDecimal valorTarifa = new BigDecimal(txtValorTarifa.getText().toString());
+                BigDecimal valorConsumoMes = new BigDecimal(txtConsumMes.getText().toString());
+                BigDecimal valorPagar = valorTarifa.multiply(valorConsumoMes);
+                String resultado = valorPagar.toString().format("%.2f", valorPagar);
+                txtValorAPagar.setTypeface(null, Typeface.BOLD);
+                txtValorAPagar.setText(resultado);
+            }
+        });
+
+        imgBtnBandeiraVerde.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtBandeira.setText("Verde   ");
+                txtValorTarifa.setText("0.50787");
+
+                BigDecimal valorTarifa = new BigDecimal(txtValorTarifa.getText().toString());
+                BigDecimal valorConsumoMes = new BigDecimal(txtConsumMes.getText().toString());
+                BigDecimal valorPagar = valorTarifa.multiply(valorConsumoMes);
+                String resultado = valorPagar.toString().format("%.2f", valorPagar);
+                txtValorAPagar.setTypeface(null, Typeface.BOLD);
+                txtValorAPagar.setText(resultado);
+            }
+        });
+
     }
 
     @Override
@@ -93,13 +149,11 @@ public class ConsumoActivity extends AppCompatActivity
         dialog.setCancelable(false);
         dialog.show();
 
-        ultimaLeitura();
-        consumoTotal();
-        cosumoMes();
-        dialog.dismiss();
+        getMedicao();
+        getconsumoTotal();
     }
 
-    public void ultimaLeitura() {
+    public void getMedicao() {
         Gson gson = new GsonBuilder().setLenient().create();
         OkHttpClient client = new OkHttpClient();
         Retrofit retrofit = new Retrofit.Builder()
@@ -109,9 +163,9 @@ public class ConsumoActivity extends AppCompatActivity
                 .build();
 
         LeituraService leituraService = retrofit.create(LeituraService.class);
-        Call<Leitura> getUltimaLeitura = leituraService.getUltimaLeitura();
+        Call<Leitura> getMedicao = leituraService.getMedicao();
 
-        getUltimaLeitura.enqueue(new Callback<Leitura>() {
+        getMedicao.enqueue(new Callback<Leitura>() {
             @Override
             public void onResponse(Call<Leitura> call, Response<Leitura> response) {
                 if (!response.isSuccessful()) {
@@ -120,10 +174,9 @@ public class ConsumoActivity extends AppCompatActivity
                     }
                     Toast.makeText(getBaseContext(), "Erro na resposta - Ultima Leitura", Toast.LENGTH_LONG).show();
                 }else {
-                    Leitura ultimaLeitura = response.body();
-                    txtUltimaLeitura.setText(ultimaLeitura.getValorUltimaLeitura().toString());
-                    txtProximaLeitura.setText(ultimaLeitura.getProximaLeitura());
-                    dataUltimaLeitura = ultimaLeitura.getUltimaLeitura();
+                    Leitura getMedicao = response.body();
+                    leituraMedicao = getMedicao;
+                    txtProximaLeitura.setText(getMedicao.getProximaLeitura());
                 }
             }
 
@@ -138,7 +191,7 @@ public class ConsumoActivity extends AppCompatActivity
         });
     }
 
-    public void consumoTotal() {
+    public void getconsumoTotal() {
         Gson gson = new GsonBuilder().setLenient().create();
         OkHttpClient client = new OkHttpClient();
         Retrofit retrofit = new Retrofit.Builder()
@@ -157,10 +210,12 @@ public class ConsumoActivity extends AppCompatActivity
                     if (dialog.isShowing()){
                         dialog.dismiss();
                     }
-                    Toast.makeText(getBaseContext(), "Erro na resposta - Valor Atual", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Erro na resposta - Consumo total", Toast.LENGTH_LONG).show();
                 }else {
                     BigDecimal consumoTotal = response.body();
+                    consumoTot = consumoTotal;
                     txtConsumoTotal.setText(consumoTotal.toString());
+                    consumoMes();
                 }
             }
 
@@ -175,46 +230,16 @@ public class ConsumoActivity extends AppCompatActivity
         });
     }
 
-    public void cosumoMes() {
-        Gson gson = new GsonBuilder().setLenient().create();
-        OkHttpClient client = new OkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(base_url)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        Leitura leitura = new Leitura();
-        leitura.setUltimaLeitura(dataUltimaLeitura);
-        leitura.setProximaLeitura(txtProximaLeitura.getText().toString());
-
-        ConsumoService consumoService = retrofit.create(ConsumoService.class);
-        Call<BigDecimal> consumoMes = consumoService.consumoMes(leitura);
-
-        consumoMes.enqueue(new Callback<BigDecimal>() {
+    public void consumoMes() {
+        final int tempoDeEspera = 3000;
+        new Handler().post(new Runnable() {
             @Override
-            public void onResponse(Call<BigDecimal> call, Response<BigDecimal> response) {
-                if (!response.isSuccessful()) {
-                    if (dialog.isShowing()){
-                        dialog.dismiss();
-                    }
-                    Toast.makeText(getBaseContext(), "Erro na resposta - Consumo", Toast.LENGTH_LONG).show();
-                }else {
-                    BigDecimal consumoMes = response.body();
-                    txtConsumMes.setText(consumoMes.toString());
-                    BigDecimal valorTarifa = new BigDecimal(txtValorTarifa.getText().toString());
-                    BigDecimal valorAPagar = valorTarifa.multiply(consumoMes);
-                    txtValorAPagar.setText(valorAPagar.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BigDecimal> call, Throwable t) {
-                if (dialog.isShowing())
-                    dialog.dismiss();
-
-                System.out.println(t.getMessage());
-                Toast.makeText(getBaseContext(), "Erro na conexão", Toast.LENGTH_LONG).show();
+            public void run() {
+                SystemClock.sleep(tempoDeEspera);
+                BigDecimal consumoMes = consumoTot;
+                consumoMes = consumoMes.subtract(leituraMedicao.getValorUltimaLeitura());
+                txtConsumMes.setText(consumoMes.toString());
+                dialog.dismiss();
             }
         });
     }
@@ -245,7 +270,6 @@ public class ConsumoActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            onStart();
             return true;
         }
 
@@ -259,7 +283,10 @@ public class ConsumoActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_consumo) {
-            onStart();
+            Intent it = new Intent(this, ConsumoActivity.class);
+            it.putExtra("base_url", base_url);
+            startActivity(it);
+            finish();
         } else if (id == R.id.nav_historico) {
             Intent it = new Intent(this, HistoricoActivity.class);
             it.putExtra("base_url", base_url);

@@ -12,7 +12,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.List;
+
+import br.com.electricapp.electricapp.model.Leitura;
 import br.com.electricapp.electricapp.model.Usuario;
+import br.com.electricapp.electricapp.services.LeituraService;
 import br.com.electricapp.electricapp.services.UsuarioService;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -29,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox checkLogin;
     private ProgressDialog dialog;
 
-    public static String base_url;
+    public static String base_url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +50,13 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                base_url = edtSSID.getText().toString();
-                autenticar(edtSenha.getText().toString());
+                if (edtSSID.getText().toString().trim().equals("") || edtSSID.getText().toString().length() == 0 &&
+                        edtSenha.toString().trim().equals("") || edtSenha.getText().toString().length() == 0) {
+                    Toast.makeText(getBaseContext(), "Os campos SSID e senha devem ser preenchidos", Toast.LENGTH_LONG).show();
+                }else{
+                    base_url = edtSSID.getText().toString();
+                    autenticar(edtSenha.getText().toString());
+                }
             }
         });
 
@@ -75,10 +85,10 @@ public class MainActivity extends AppCompatActivity {
         autenticar.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if (dialog.isShowing()){
-                    dialog.dismiss();
-                }
                 if (!response.isSuccessful()) {
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                     Toast.makeText(getBaseContext(), "Erro na resposta", Toast.LENGTH_LONG).show();
                 }else {
                     String resposta = response.body();
@@ -86,10 +96,11 @@ public class MainActivity extends AppCompatActivity {
                         if (verificaCheck(checkLogin)) {
                             salvaUser(base_url, senha);
                         }
-                        Intent it = new Intent(MainActivity.this, DadosIniciaisActivity.class);
-                        it.putExtra("base_url",base_url);
-                        startActivity(it);
+                        getLeituras();
                     }else {
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                         Toast.makeText(getBaseContext(), "SSID ou Senha inválidos", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -119,5 +130,59 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("login", base_url);
         editor.putString("senha", senha);
         editor.commit();
+    }
+
+    public void getLeituras() {
+        Gson gson = new GsonBuilder().setLenient().create();
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(base_url)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        LeituraService leituraService = retrofit.create(LeituraService.class);
+        Call<List<Leitura>> listarLeituras = leituraService.listar();
+
+        listarLeituras.enqueue(new Callback<List<Leitura>>() {
+            @Override
+            public void onResponse(Call<List<Leitura>> call, Response<List<Leitura>> response) {
+                if (!response.isSuccessful()) {
+                    if (dialog.isShowing())
+                        dialog.dismiss();
+                    Toast.makeText(getBaseContext(), "Erro na resposta", Toast.LENGTH_LONG).show();
+                } else {
+                    List<Leitura> leituras = response.body();
+                    if (!leituras.isEmpty()) {
+                        if (dialog.isShowing()) {
+                            dialog.dismiss();
+                        }
+
+                        Intent it = new Intent(MainActivity.this, ConsumoActivity.class);
+                        it.putExtra("base_url", base_url);
+                        startActivity(it);
+                        finish();
+
+                    } else {
+                        if (dialog.isShowing())
+                            dialog.dismiss();
+
+                        Intent i = new Intent(MainActivity.this, DadosIniciaisActivity.class);
+                        i.putExtra("base_url", base_url);
+                        startActivity(i);
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Leitura>> call, Throwable t) {
+                if (dialog.isShowing())
+                    dialog.dismiss();
+
+                System.out.println(t.getMessage());
+                Toast.makeText(getBaseContext(), "Erro na conexão", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

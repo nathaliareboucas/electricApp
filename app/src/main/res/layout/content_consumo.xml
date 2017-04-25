@@ -25,6 +25,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginBottom="25dp"
             android:background="@drawable/customborder"
+            android:padding="5dp"
             android:stretchColumns="0,2">
 
             <TableRow
@@ -34,16 +35,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ultimaLeitura"/>
+                    android:text="@string/valorDoMedidor"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/kW"
-                    android:gravity="end"/>
+                    android:gravity="end"
+                    android:text="@string/kW"/>
 
                 <TextView
-                    android:id="@+id/txtUltimaLeitura"
+                    android:id="@+id/txtConsumoTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"/>
@@ -64,33 +65,46 @@
                     android:layout_span="2"
                     android:gravity="end"/>
             </TableRow>
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        </TableLayout>
 
-                <TextView
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:stretchColumns="*">
+
+            <TableRow>
+
+                <ImageButton
+                    android:id="@+id/imgBtnBandeiraVermelha"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/valorAtual"/>
+                    android:src="@drawable/bandeira_vermelha"
+                    android:background="@android:color/transparent"/>
 
-                <TextView
+                <ImageButton
+                    android:id="@+id/imgBtnBandeiraAmarela"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/kW"/>
+                    android:src="@drawable/bandeira_amarela"
+                    android:background="@android:color/transparent"/>
 
-                <TextView
-                    android:id="@+id/txtConsumoTotal"
+                <ImageButton
+                    android:id="@+id/imgBtnBandeiraVerde"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="end"/>
+                    android:src="@drawable/bandeira_verde"
+                    android:background="@android:color/transparent"/>
             </TableRow>
+
+
         </TableLayout>
 
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/customborder"
+            android:padding="5dp"
             android:stretchColumns="3">
 
             <TableRow
@@ -103,28 +117,29 @@
                     android:src="@drawable/flag_36_36"/>
 
                 <TextView
+                    android:id="@+id/txtBandeira"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/bandeira_vermelha"
+                    android:text="@string/bandeira"
                     android:padding="10dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="R$"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="35dp"
                     android:gravity="center"/>
 
                 <TextView
                     android:id="@+id/txtValorTarifa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.73"
                     android:gravity="end"/>
             </TableRow>
             <TableRow
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -141,18 +156,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/kW"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="35dp"
                     android:gravity="center"/>
 
                 <TextView
                     android:id="@+id/txtConsumoMes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="0.00"
                     android:gravity="end"/>
             </TableRow>
             <TableRow
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -169,13 +186,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="R$"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="35dp"
                     android:gravity="center"/>
 
                 <TextView
                     android:id="@+id/txtValorAPagar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="15sp"
                     android:gravity="end"/>
             </TableRow>
         </TableLayout>

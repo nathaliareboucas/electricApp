@@ -138,7 +138,8 @@ public class AmbientesActivity extends AppCompatActivity
         dialog.show();
 
         exibeEstado();
-        dialog.dismiss();
+        if (dialog.isShowing())
+            dialog.dismiss();
     }
 
     public void exibeEstado() {
