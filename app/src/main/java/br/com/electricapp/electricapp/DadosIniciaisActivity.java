@@ -41,6 +41,7 @@ public class DadosIniciaisActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        dialog = new ProgressDialog(DadosIniciaisActivity.this);
         Intent itn = getIntent();
         Bundle params = itn.getExtras();
         base_url = params.getString("base_url");
