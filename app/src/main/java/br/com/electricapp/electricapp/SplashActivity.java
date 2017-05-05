@@ -6,12 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.util.List;
-
 import br.com.electricapp.electricapp.model.Leitura;
 import br.com.electricapp.electricapp.services.LeituraService;
 import okhttp3.OkHttpClient;
@@ -103,7 +100,9 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Leitura>> call, Throwable t) {
                 System.out.println(t.getMessage());
-                Toast.makeText(getBaseContext(), "Erro na conexão", Toast.LENGTH_LONG).show();
+                Intent it = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(it);
+                finish();
             }
         });
     }

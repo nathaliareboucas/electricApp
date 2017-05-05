@@ -20,12 +20,9 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.math.BigDecimal;
-
 import br.com.electricapp.electricapp.model.Leitura;
 import br.com.electricapp.electricapp.services.ConsumoService;
 import br.com.electricapp.electricapp.services.LeituraService;
@@ -61,6 +58,16 @@ public class ConsumoActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(ConsumoActivity.this, AmbientesActivity.class);
+                it.putExtra("base_url", base_url);
+                startActivity(it);
+            }
+        });
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -73,16 +80,6 @@ public class ConsumoActivity extends AppCompatActivity
         Intent it = getIntent();
         Bundle params = it.getExtras();
         base_url = params.getString("base_url");
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAdd);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(getBaseContext(), AmbientesActivity.class);
-                it.putExtra("base_url", base_url);
-                startActivity(it);
-            }
-        });
 
         txtConsumoTotal = (TextView)findViewById(R.id.txtConsumoTotal);
         txtProximaLeitura = (TextView)findViewById(R.id.txtProximaLeitura);
@@ -270,6 +267,7 @@ public class ConsumoActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            onStart();
             return true;
         }
 

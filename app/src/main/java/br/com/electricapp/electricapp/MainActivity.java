@@ -12,9 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.util.List;
-
 import br.com.electricapp.electricapp.model.Leitura;
 import br.com.electricapp.electricapp.model.Usuario;
 import br.com.electricapp.electricapp.services.LeituraService;
