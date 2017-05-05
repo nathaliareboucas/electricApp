@@ -37,4 +37,5 @@
     <string name="valorMedidor">Valor medidor: </string>
     <string name="proximaLeitura">Próxima leitura</string>
     <string name="electricApp">ElectricApp</string>
+    <string name="consumoMes">Consumo do mês</string>
 </resources>
