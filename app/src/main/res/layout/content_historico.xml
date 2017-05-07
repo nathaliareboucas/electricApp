@@ -13,64 +13,67 @@
     tools:context=".HistoricoActivity"
     tools:showIn="@layout/app_bar_historico">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/customborder"
             android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:padding="0dp"
+            android:layout_marginBottom="40dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/customborder"
-                android:orientation="vertical"
-                android:padding="0dp">
-            
-                <LinearLayout
-                    android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:background="@color/colorPrimary">
+
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@color/colorPrimary">
+                    android:src="@drawable/medidor_36_36"
+                    android:padding="8dp"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/medidor_36_36"
-                        android:padding="8dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Últimos 12 meses"
-                        android:padding="17dp"/>
-                </LinearLayout>
-
-                <TableLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:stretchColumns="*">
-
-                    <TableRow>
-                        <TextView
-                            android:text="@string/media"/>
-
-                        <TextView
-                            android:text="KW 51"
-                            android:layout_gravity="end"/>
-                    </TableRow>
-                </TableLayout>
+                    android:text="Últimos 12 meses"
+                    android:padding="17dp"/>
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <TableLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/grafico_historico"/>
-            
+                android:padding="10dp"
+                android:stretchColumns="*">
+
+                <TableRow>
+                    <TextView
+                        android:text="@string/media"/>
+
+                    <TextView
+                        android:id="@+id/txtMedia"
+                        android:gravity="end"/>
+
+                </TableRow>
+            </TableLayout>
         </LinearLayout>
-    </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"/>
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

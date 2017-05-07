@@ -29,6 +29,11 @@ public class DadosIniciaisActivity extends AppCompatActivity {
     private EditText edtDataUltimaLeitura;
     private EditText edtValorUltimaLeitura;
     private EditText edtValorMedidor;
+
+    private BigDecimal valorUltimaLeitura;
+    private BigDecimal valorDoMedidor;
+    private BigDecimal valorDiferencaDias;
+
     Intent it;
     public static String base_url;
 
@@ -49,6 +54,7 @@ public class DadosIniciaisActivity extends AppCompatActivity {
         edtValorUltimaLeitura = (EditText)findViewById(R.id.valorUltimaLeitura);
         edtValorMedidor = (EditText)findViewById(R.id.valorMedidor);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +66,13 @@ public class DadosIniciaisActivity extends AppCompatActivity {
                     dialog.setMessage("Carregando...");
                     dialog.setCancelable(false);
                     dialog.show();
+
+                    valorUltimaLeitura = new BigDecimal(edtValorUltimaLeitura.getText().toString());
+                    valorDoMedidor = new BigDecimal(edtValorMedidor.getText().toString());
+                    valorDiferencaDias = valorDoMedidor.subtract(valorUltimaLeitura);
+
                     salvaUltimaLeitura();
-                    salvaConsumoAcumulado();
+//                    salvaConsumoAcumulado();
                     salvaConsumoDiferencaDias();
 
                     try {
@@ -92,7 +103,7 @@ public class DadosIniciaisActivity extends AppCompatActivity {
 
         Leitura leit = new Leitura();
         leit.setUltimaLeitura(edtDataUltimaLeitura.getText().toString());
-        leit.setValorUltimaLeitura(new BigDecimal(edtValorUltimaLeitura.getText().toString()));
+        leit.setValorUltimaLeitura(valorUltimaLeitura);
 
         LeituraService leituraService = retrofit.create(LeituraService.class);
         Call<Void> salvarLeitura = leituraService.salvarLeitura(leit);
@@ -129,7 +140,7 @@ public class DadosIniciaisActivity extends AppCompatActivity {
                 .build();
 
         Consumo consumoAcumulado = new Consumo();
-        consumoAcumulado.setValor(new BigDecimal(edtValorUltimaLeitura.getText().toString()));
+        consumoAcumulado.setValor(valorUltimaLeitura.subtract(valorDiferencaDias));
 
         ConsumoService consumoService = retrofit.create(ConsumoService.class);
         Call<Void> salvarConsumoAcumulado = consumoService.salvaConsumo(consumoAcumulado);
@@ -167,9 +178,7 @@ public class DadosIniciaisActivity extends AppCompatActivity {
                 .build();
 
         Consumo consumoDiferencaDias = new Consumo();
-        BigDecimal valorDoMedidor = new BigDecimal(edtValorMedidor.getText().toString());
-        consumoDiferencaDias.setValor(valorDoMedidor.subtract(
-                new BigDecimal(edtValorUltimaLeitura.getText().toString())));
+        consumoDiferencaDias.setValor(valorDiferencaDias);
 
         ConsumoService consumoService = retrofit.create(ConsumoService.class);
         Call<Void> salvarConsumoDiferencaDias = consumoService.salvaConsumo(consumoDiferencaDias);

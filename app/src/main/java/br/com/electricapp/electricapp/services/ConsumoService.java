@@ -1,6 +1,7 @@
 package br.com.electricapp.electricapp.services;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import br.com.electricapp.electricapp.model.Consumo;
 import br.com.electricapp.electricapp.model.Leitura;
@@ -26,4 +27,7 @@ public interface ConsumoService {
 
     @POST("consumo")
     Call<Void> salvaConsumo(@Body Consumo consumo);
+
+    @GET("consumo/por_mes")
+    Call<List<Leitura>> consumoLeiturasPorMes();
 }

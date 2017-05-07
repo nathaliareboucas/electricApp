@@ -41,15 +41,16 @@ public class ConsumoActivity extends AppCompatActivity
     private TextView txtProximaLeitura;
     private TextView txtBandeira;
     private TextView txtValorTarifa;
-    private TextView txtConsumMes;
+    private TextView txtConsumoMes;
     private TextView txtValorAPagar;
     private ImageButton imgBtnBandeiraVermelha;
     private ImageButton imgBtnBandeiraAmarela;
     private ImageButton imgBtnBandeiraVerde;
 
-    BigDecimal consumoTot;
+    BigDecimal consumoMes;
     Leitura leituraMedicao;
     public static String base_url;
+    private Call<BigDecimal> getConsumoTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class ConsumoActivity extends AppCompatActivity
         txtProximaLeitura = (TextView)findViewById(R.id.txtProximaLeitura);
         txtBandeira = (TextView)findViewById(R.id.txtBandeira);
         txtValorTarifa = (TextView)findViewById(R.id.txtValorTarifa);
-        txtConsumMes = (TextView)findViewById(R.id.txtConsumoMes);
+        txtConsumoMes = (TextView)findViewById(R.id.txtConsumoMes);
         txtValorAPagar = (TextView)findViewById(R.id.txtValorAPagar);
         imgBtnBandeiraVermelha = (ImageButton)findViewById(R.id.imgBtnBandeiraVermelha);
         imgBtnBandeiraAmarela = (ImageButton)findViewById(R.id.imgBtnBandeiraAmarela);
@@ -98,9 +99,10 @@ public class ConsumoActivity extends AppCompatActivity
                 txtValorTarifa.setText("0.73033");
 
                 BigDecimal valorTarifa = new BigDecimal(txtValorTarifa.getText().toString());
-                BigDecimal valorConsumoMes = new BigDecimal(txtConsumMes.getText().toString());
+                BigDecimal valorConsumoMes = new BigDecimal(txtConsumoMes.getText().toString());
                 BigDecimal valorPagar = valorTarifa.multiply(valorConsumoMes);
                 String resultado = valorPagar.toString().format("%.2f", valorPagar);
+
                 txtValorAPagar.setTypeface(null, Typeface.BOLD);
                 txtValorAPagar.setText(resultado);
             }
@@ -113,9 +115,10 @@ public class ConsumoActivity extends AppCompatActivity
                 txtValorTarifa.setText("0.72452");
 
                 BigDecimal valorTarifa = new BigDecimal(txtValorTarifa.getText().toString());
-                BigDecimal valorConsumoMes = new BigDecimal(txtConsumMes.getText().toString());
+                BigDecimal valorConsumoMes = new BigDecimal(txtConsumoMes.getText().toString());
                 BigDecimal valorPagar = valorTarifa.multiply(valorConsumoMes);
                 String resultado = valorPagar.toString().format("%.2f", valorPagar);
+
                 txtValorAPagar.setTypeface(null, Typeface.BOLD);
                 txtValorAPagar.setText(resultado);
             }
@@ -128,9 +131,10 @@ public class ConsumoActivity extends AppCompatActivity
                 txtValorTarifa.setText("0.50787");
 
                 BigDecimal valorTarifa = new BigDecimal(txtValorTarifa.getText().toString());
-                BigDecimal valorConsumoMes = new BigDecimal(txtConsumMes.getText().toString());
+                BigDecimal valorConsumoMes = new BigDecimal(txtConsumoMes.getText().toString());
                 BigDecimal valorPagar = valorTarifa.multiply(valorConsumoMes);
                 String resultado = valorPagar.toString().format("%.2f", valorPagar);
+
                 txtValorAPagar.setTypeface(null, Typeface.BOLD);
                 txtValorAPagar.setText(resultado);
             }
@@ -147,7 +151,6 @@ public class ConsumoActivity extends AppCompatActivity
         dialog.show();
 
         getMedicao();
-        getconsumoTotal();
     }
 
     public void getMedicao() {
@@ -173,7 +176,9 @@ public class ConsumoActivity extends AppCompatActivity
                 }else {
                     Leitura getMedicao = response.body();
                     leituraMedicao = getMedicao;
+                    txtConsumoTotal.setText(getMedicao.getValorUltimaLeitura().toString());
                     txtProximaLeitura.setText(getMedicao.getProximaLeitura());
+                    getconsumoMes();
                 }
             }
 
@@ -188,7 +193,7 @@ public class ConsumoActivity extends AppCompatActivity
         });
     }
 
-    public void getconsumoTotal() {
+    public void getconsumoMes() {
         Gson gson = new GsonBuilder().setLenient().create();
         OkHttpClient client = new OkHttpClient();
         Retrofit retrofit = new Retrofit.Builder()
@@ -198,9 +203,9 @@ public class ConsumoActivity extends AppCompatActivity
                 .build();
 
         ConsumoService consumoService = retrofit.create(ConsumoService.class);
-        Call<BigDecimal> getConsumoTotal = consumoService.getConsumoTotal();
+        Call<BigDecimal> getConsumoMes =   consumoService.consumoMes(leituraMedicao);
 
-        getConsumoTotal.enqueue(new Callback<BigDecimal>() {
+        getConsumoMes.enqueue(new Callback<BigDecimal>() {
             @Override
             public void onResponse(Call<BigDecimal> call, Response<BigDecimal> response) {
                 if (!response.isSuccessful()) {
@@ -209,10 +214,12 @@ public class ConsumoActivity extends AppCompatActivity
                     }
                     Toast.makeText(getBaseContext(), "Erro na resposta - Consumo total", Toast.LENGTH_LONG).show();
                 }else {
-                    BigDecimal consumoTotal = response.body();
-                    consumoTot = consumoTotal;
-                    txtConsumoTotal.setText(consumoTotal.toString());
-                    consumoMes();
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
+                    BigDecimal consumoPorMes = response.body();
+                    consumoMes = consumoPorMes;
+                    txtConsumoMes.setText(consumoMes.toString());
                 }
             }
 
@@ -227,19 +234,19 @@ public class ConsumoActivity extends AppCompatActivity
         });
     }
 
-    public void consumoMes() {
-        final int tempoDeEspera = 3000;
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                SystemClock.sleep(tempoDeEspera);
-                BigDecimal consumoMes = consumoTot;
-                consumoMes = consumoMes.subtract(leituraMedicao.getValorUltimaLeitura());
-                txtConsumMes.setText(consumoMes.toString());
-                dialog.dismiss();
-            }
-        });
-    }
+//    public void valorConsumoMes() {
+//        final int tempoDeEspera = 3000;
+//        new Handler().post(new Runnable() {
+//            @Override
+//            public void run() {
+//                SystemClock.sleep(tempoDeEspera);
+//                BigDecimal consumoMes = consumoTot;
+//                consumoMes = consumoMes.subtract(leituraMedicao.getValorUltimaLeitura());
+//                txtConsumMes.setText(consumoMes.toString());
+//                dialog.dismiss();
+//            }
+//        });
+//    }
 
     @Override
     public void onBackPressed() {
