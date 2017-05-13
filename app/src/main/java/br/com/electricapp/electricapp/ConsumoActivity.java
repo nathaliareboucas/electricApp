@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -58,6 +56,16 @@ public class ConsumoActivity extends AppCompatActivity
         setContentView(R.layout.consumo_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        FloatingActionButton fabGraph = (FloatingActionButton) findViewById(R.id.fabGraph);
+        fabGraph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(ConsumoActivity.this, ConsumoInstantaneo.class);
+                it.putExtra("base_url", base_url);
+                startActivity(it);
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -233,20 +241,6 @@ public class ConsumoActivity extends AppCompatActivity
             }
         });
     }
-
-//    public void valorConsumoMes() {
-//        final int tempoDeEspera = 3000;
-//        new Handler().post(new Runnable() {
-//            @Override
-//            public void run() {
-//                SystemClock.sleep(tempoDeEspera);
-//                BigDecimal consumoMes = consumoTot;
-//                consumoMes = consumoMes.subtract(leituraMedicao.getValorUltimaLeitura());
-//                txtConsumMes.setText(consumoMes.toString());
-//                dialog.dismiss();
-//            }
-//        });
-//    }
 
     @Override
     public void onBackPressed() {

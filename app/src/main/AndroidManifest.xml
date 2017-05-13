@@ -36,7 +36,10 @@
             android:name=".DadosIniciaisActivity"
             android:label="@string/title_activity_dados_iniciais"
             android:theme="@style/AppTheme" />
-        
+        <activity
+            android:name=".ConsumoInstantaneo"
+            android:label="@string/title_activity_consumo_instataneo"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

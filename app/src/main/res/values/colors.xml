@@ -3,5 +3,6 @@
     <color name="colorPrimary">#61ba47</color>
     <color name="colorPrimaryDark">#33ae49</color>
     <color name="colorAccent">#000000</color>
+    <color name="botao">#aaaaaa</color>
 
 </resources>

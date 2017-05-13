@@ -138,8 +138,6 @@ public class AmbientesActivity extends AppCompatActivity
         dialog.show();
 
         exibeEstado();
-        if (dialog.isShowing())
-            dialog.dismiss();
     }
 
     public void exibeEstado() {
@@ -167,26 +165,46 @@ public class AmbientesActivity extends AppCompatActivity
 
                     for (Lampada l : lampadas) {
                         if (cont == 1) {
-                            if (l.getValor().equals("ligada"))
+                            if (l.getValor().equals("1ligada")) {
                                 lampada1.setBackgroundResource(R.color.colorPrimary);
+                            } else {
+                                lampada1.setBackgroundResource(R.color.botao);
+                            }
                         } else if (cont == 2) {
-                            if (l.getValor().equals("ligada"))
+                            if (l.getValor().equals("2ligada")) {
                                 lampada2.setBackgroundResource(R.color.colorPrimary);
+                            }else {
+                                lampada2.setBackgroundResource(R.color.botao);
+                                }
                         } else if (cont == 3) {
-                            if (l.getValor().equals("ligada"))
+                            if (l.getValor().equals("3ligada")){
                                 lampada3.setBackgroundResource(R.color.colorPrimary);
+                            }else {
+                                lampada3.setBackgroundResource(R.color.botao);
+                            }
                         } else if (cont == 4) {
-                            if (l.getValor().equals("ligada"))
+                            if (l.getValor().equals("4ligada")){
                                 lampada4.setBackgroundResource(R.color.colorPrimary);
+                            }else {
+                                lampada4.setBackgroundResource(R.color.botao);
+                            }
                         } else if (cont == 5) {
-                            if (l.getValor().equals("ligada"))
+                            if (l.getValor().equals("5ligada")){
                                 lampada5.setBackgroundResource(R.color.colorPrimary);
+                            }else {
+                                lampada5.setBackgroundResource(R.color.botao);
+                            }
                         } else if (cont == 6) {
-                            if (l.getValor().equals("ligada"))
+                            if (l.getValor().equals("6ligada")){
                                 lampada6.setBackgroundResource(R.color.colorPrimary);
+                            }else {
+                                lampada6.setBackgroundResource(R.color.botao);
+                            }
                         }
                         cont++;
                     }
+                    if (dialog.isShowing())
+                        dialog.dismiss();
                 }
             }
 
@@ -215,12 +233,12 @@ public class AmbientesActivity extends AppCompatActivity
         dialog.show();
 
         LampadaService lampadaService = retrofit.create(LampadaService.class);
-        Call<List<Lampada>> getLampadas = lampadaService.getLampadas();
-        if (lampada.getValor().equals("desligada")) {
-            lampada.setValor("ligada");
-        } else {
-            lampada.setValor("desligada");
-        }
+//        Call<List<Lampada>> getLampadas = lampadaService.getLampadas();
+//        if (lampada.getValor().equals("desligada")) {
+//            lampada.setValor("ligada");
+//        } else {
+//            lampada.setValor("desligada");
+//        }
 
         Call<Lampada> alteraEstadoLamp = lampadaService.alterarEstado(lampada.getId(), lampada);
         alteraEstadoLamp.enqueue(new Callback<Lampada>() {
@@ -234,14 +252,16 @@ public class AmbientesActivity extends AppCompatActivity
                 }else {
                     Lampada lamp = response.body();
 
-                    if (lampada.getValor().equals("desligada")) {
+                    String valorLampada = lamp.getValor().substring(1);
+
+                    if (valorLampada.equals("ligada")) {
                         imgButton.setBackgroundColor(Color.parseColor("#AAAAAA"));
-                    } else if (lampada.getValor().equals("ligada")) {
+                    } else if (valorLampada.equals("desligada")) {
                         imgButton.setBackgroundColor(Color.parseColor("#61BA47"));
                     }
 
                     try {
-                        Thread.sleep(3000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } finally {
@@ -287,6 +307,7 @@ public class AmbientesActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            onStart();
             return true;
         }
 
