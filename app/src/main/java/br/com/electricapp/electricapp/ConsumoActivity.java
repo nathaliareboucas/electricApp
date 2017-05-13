@@ -185,7 +185,10 @@ public class ConsumoActivity extends AppCompatActivity
                     Leitura getMedicao = response.body();
                     leituraMedicao = getMedicao;
                     txtConsumoTotal.setText(getMedicao.getValorUltimaLeitura().toString());
-                    txtProximaLeitura.setText(getMedicao.getProximaLeitura());
+
+                    String proximaLeitura = getMedicao.getProximaLeitura();
+                    proximaLeitura = proximaLeitura.substring(0, 11);
+                    txtProximaLeitura.setText(proximaLeitura);
                     getconsumoMes();
                 }
             }
@@ -222,12 +225,12 @@ public class ConsumoActivity extends AppCompatActivity
                     }
                     Toast.makeText(getBaseContext(), "Erro na resposta - Consumo total", Toast.LENGTH_LONG).show();
                 }else {
-                    if (dialog.isShowing()){
-                        dialog.dismiss();
-                    }
                     BigDecimal consumoPorMes = response.body();
                     consumoMes = consumoPorMes;
                     txtConsumoMes.setText(consumoMes.toString());
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                 }
             }
 
