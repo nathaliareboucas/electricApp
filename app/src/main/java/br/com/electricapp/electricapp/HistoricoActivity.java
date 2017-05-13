@@ -171,7 +171,9 @@ public class HistoricoActivity extends AppCompatActivity
         for (String v : valorConsumo) {
             media = media.add(new BigDecimal(v));
         }
-        media = media.divide(BigDecimal.valueOf(valorConsumo.size()));
+        if(valorConsumo.size() > 1) {
+            media = media.divide(BigDecimal.valueOf(valorConsumo.size()));
+        }
         txtMedia.setText(media.toString());
     }
 
