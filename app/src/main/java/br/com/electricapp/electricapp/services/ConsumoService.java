@@ -30,4 +30,7 @@ public interface ConsumoService {
 
     @GET("consumo/por_mes")
     Call<List<Leitura>> consumoLeiturasPorMes();
+
+    @GET("consumo/ultimo")
+    Call<Consumo> ultimoConsumo();
 }

@@ -38,5 +38,10 @@
     <string name="proximaLeitura">Próxima leitura</string>
     <string name="electricApp">ElectricApp</string>
     <string name="consumoMes">Consumo do mês</string>
-    <string name="title_activity_consumo_instataneo">Consumo Instataneo</string>
+    <string name="title_activity_consumo_instataneo">Consumo</string>
+    <string name="porPeriodo">Por período</string>
+    <string name="ok">Ok</string>
+    <string name="tempoReal">Tempo real</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>

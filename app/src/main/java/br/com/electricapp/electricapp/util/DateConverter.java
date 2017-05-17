@@ -16,8 +16,8 @@ public class DateConverter {
 
     public Date stringToDate(String str_date) {
         try {
-            formatter = new SimpleDateFormat("dd/MM/yyyy");
-            date = (Date)formatter.parse(str_date);
+            formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            date = formatter.parse(str_date);
             return date;
         } catch (ParseException e) {
             e.printStackTrace();

@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#33ae49</color>
     <color name="colorAccent">#000000</color>
     <color name="botao">#aaaaaa</color>
+    <color name="transparente">#00000000</color>
 
 </resources>

@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -32,6 +34,7 @@ import java.util.List;
 import br.com.electricapp.electricapp.model.Leitura;
 import br.com.electricapp.electricapp.services.ConsumoService;
 import br.com.electricapp.electricapp.util.DateConverter;
+import br.com.electricapp.electricapp.util.MyXAxisValueFormatter;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +48,7 @@ public class HistoricoActivity extends AppCompatActivity
     private TextView txtMedia;
     private ProgressDialog dialog;
     private List<Leitura> leituras;
-    private ArrayList<String> consumoMes;
+    private String[] consumoMes;
     private ArrayList<String> valorConsumo;
 
     BarChart chart;
@@ -131,8 +134,8 @@ public class HistoricoActivity extends AppCompatActivity
             public void run() {
             SystemClock.sleep(tempoDeEspera);
 
-                consumoMes = new ArrayList<String>();
-                valorConsumo = new ArrayList<String>();
+                consumoMes = new String[leituras.size()];
+                valorConsumo = new ArrayList<>();
 
                 String valorCons;
                 DateConverter dataConvertida = new DateConverter();
@@ -141,7 +144,7 @@ public class HistoricoActivity extends AppCompatActivity
                     Calendar mesData = Calendar.getInstance();
                     mesData.setTime(dataConvertida.stringToDate(leituras.get(i).getUltimaLeitura()));
 
-                    consumoMes.add(dataConvertida.nomeMes(mesData));
+                    consumoMes[i] = dataConvertida.nomeMes(mesData);
 
                     valorCons = leituras.get(i).getValorUltimaLeitura().toString();
                     int pos = valorCons.indexOf(".");
@@ -151,15 +154,8 @@ public class HistoricoActivity extends AppCompatActivity
                 if (dialog.isShowing()){
                     dialog.dismiss();
                 }
-                BarData data = new BarData(consumoMes, getDataSet());
-                chart.setData(data);
-                chart.setDescription("kWh");
-                chart.animateXY(2000, 2000);
-                chart.setTouchEnabled(true);
-                chart.setScaleEnabled(true);
-                chart.setVisibility(View.VISIBLE);
-                chart.invalidate();
 
+                geraGrafico();
                 media();
             }
         });
@@ -177,17 +173,33 @@ public class HistoricoActivity extends AppCompatActivity
         txtMedia.setText(media.toString());
     }
 
-    public BarDataSet getDataSet() {
+    public void geraGrafico() {
         List<BarEntry> barEntries = new ArrayList<>();
 
         for (int i = 0; i < valorConsumo.size(); i++) {
-            barEntries.add(new BarEntry(Float.parseFloat(valorConsumo.get(i)),i));
+            barEntries.add(new BarEntry(i,Float.parseFloat(valorConsumo.get(i))));
         }
 
         BarDataSet barDataSet = new BarDataSet(barEntries,"Consumo");
         barDataSet.setColor(Color.rgb(97, 186, 71));
 
-        return barDataSet;
+        BarData data = new BarData(barDataSet);
+        data.setBarWidth(0.7f);
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(new MyXAxisValueFormatter(consumoMes));
+        xAxis.setGranularity(1f);
+
+        Description desc = new Description();
+        desc.setText("kWh");
+        chart.setDescription(desc);
+
+        chart.setData(data);
+        chart.animateXY(2000, 2000);
+        chart.setTouchEnabled(true);
+        chart.setScaleEnabled(true);
+        chart.setVisibility(View.VISIBLE);
+        chart.invalidate();
     }
 
     @Override
@@ -198,28 +210,6 @@ public class HistoricoActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.consumo, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

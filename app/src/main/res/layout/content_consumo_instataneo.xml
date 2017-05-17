@@ -13,10 +13,172 @@
     tools:context=".ConsumoInstantaneo"
     tools:showIn="@layout/app_bar_consumo_instantaneo">
 
-    <TextView
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/customborder">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:stretchColumns="0">
+
+            <TableRow>
+                <RadioGroup
+                    android:id="@+id/radGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioButPorPeriodo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/porPeriodo"
+                        android:layout_marginRight="20dp"/>
+
+                    <RadioButton
+                        android:id="@+id/radioButTempoReal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tempoReal"/>
+                </RadioGroup>
+
+                <ImageButton
+                    android:id="@+id/setaJanela"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/seta_baixo"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
+        </TableLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPorPeriodo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*">
+
+                <TableRow>
+                    <EditText
+                        android:id="@+id/edtTxtDataInicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Data início"
+                        android:textAlignment="center"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="à"
+                        android:textAlignment="center"
+                        android:visibility="gone"/>
+
+                    <EditText
+                        android:id="@+id/edtTxtDataFim"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:hint="Data fim"
+                        android:visibility="gone"/>
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*">
+
+                <TableRow>
+                    <EditText
+                        android:id="@+id/edtTxtHorarioInicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Horário inicial"
+                        android:textAlignment="center"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="à"
+                        android:textAlignment="center"
+                        android:visibility="gone"/>
+
+                    <EditText
+                        android:id="@+id/edtTxtHorarioFim"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Horário final"
+                        android:textAlignment="center"
+                        android:visibility="gone"/>
+                </TableRow>
+            </TableLayout>
+
+            <Button
+                android:id="@+id/btnOk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ok"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,1">
+
+            <TableRow>
+                <Button
+                    android:id="@+id/btnStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/colorPrimary"
+                    android:visibility="gone"
+                    android:text="@string/start"/>
+
+                <Button
+                    android:id="@+id/btnStop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/colorPrimary"
+                    android:visibility="gone"
+                    android:text="@string/stop"/>
+            </TableRow>
+        </TableLayout>
+    </TableLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Gráfico em tempo real"
-        android:layout_margin="80dp"/>
+        android:layout_marginTop="20dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chartLine"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:visibility="invisible"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
+
+
