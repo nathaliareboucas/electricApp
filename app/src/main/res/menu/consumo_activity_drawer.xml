@@ -10,7 +10,7 @@
             android:id="@+id/nav_historico"
             android:icon="@drawable/history_icon_36_36"
             android:title="Histórico" />
-        <item
+<!--        <item
             android:id="@+id/nav_bandeiras"
             android:icon="@drawable/flag_36_36"
             android:title="Bandeiras tarifárias" />
@@ -21,7 +21,7 @@
         <item
             android:id="@+id/nav_alerta"
             android:icon="@drawable/alerta_36_36"
-            android:title="Alerta" />
+            android:title="Alerta" />-->
     </group>
 
     <item
