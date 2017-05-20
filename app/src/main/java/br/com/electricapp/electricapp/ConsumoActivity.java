@@ -184,7 +184,6 @@ public class ConsumoActivity extends AppCompatActivity
                 }else {
                     Leitura getMedicao = response.body();
                     leituraMedicao = getMedicao;
-                    txtConsumoTotal.setText(getMedicao.getValorUltimaLeitura().toString());
 
                     String proximaLeitura = getMedicao.getProximaLeitura();
                     proximaLeitura = proximaLeitura.substring(0, 11);
@@ -228,6 +227,9 @@ public class ConsumoActivity extends AppCompatActivity
                     BigDecimal consumoPorMes = response.body();
                     consumoMes = consumoPorMes;
                     txtConsumoMes.setText(consumoMes.toString());
+                    BigDecimal medidor = new BigDecimal(leituraMedicao.getValorUltimaLeitura().toString());
+                    medidor = medidor.add(consumoMes);
+                    txtConsumoTotal.setText(medidor.toString());
                     if (dialog.isShowing()){
                         dialog.dismiss();
                     }
