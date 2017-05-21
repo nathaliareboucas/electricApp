@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -77,6 +78,7 @@ public class ConsumoInstantaneo extends AppCompatActivity
     private Button btnStar;
     private Button btnStop;
     private LineChart chartLine;
+    private TextView consumoInstantaneoAndamento;
 
     private boolean visivel;
     private boolean visivel2;
@@ -108,14 +110,14 @@ public class ConsumoInstantaneo extends AppCompatActivity
 
         dialog = new ProgressDialog(ConsumoInstantaneo.this);
         radGroup = (RadioGroup)findViewById(R.id.radGroup);
-        radioButPorPeriodo = (RadioButton)findViewById(R.id.radioButPorPeriodo);
+//        radioButPorPeriodo = (RadioButton)findViewById(R.id.radioButPorPeriodo);
         radioButTempoReal = (RadioButton)findViewById(R.id.radioButTempoReal);
         setaJanela = (ImageButton)findViewById(R.id.setaJanela);
-        edtTxtDataInicio = (EditText)findViewById(R.id.edtTxtDataInicio);
-        edtTxtDataFim = (EditText)findViewById(R.id.edtTxtDataFim);
-        edtTxtHorarioInicio = (EditText)findViewById(R.id.edtTxtHorarioInicio);
-        edtTxtHorarioFim = (EditText)findViewById(R.id.edtTxtHorarioFim);
-        btnOk = (Button)findViewById(R.id.btnOk);
+//        edtTxtDataInicio = (EditText)findViewById(R.id.edtTxtDataInicio);
+//        edtTxtDataFim = (EditText)findViewById(R.id.edtTxtDataFim);
+//        edtTxtHorarioInicio = (EditText)findViewById(R.id.edtTxtHorarioInicio);
+//        edtTxtHorarioFim = (EditText)findViewById(R.id.edtTxtHorarioFim);
+//        btnOk = (Button)findViewById(R.id.btnOk);
         btnStar = (Button)findViewById(R.id.btnStart);
         btnStop = (Button)findViewById(R.id.btnStop);
         chartLine = (LineChart)findViewById(R.id.chartLine);
@@ -123,6 +125,7 @@ public class ConsumoInstantaneo extends AppCompatActivity
         visivel2 = false;
         handler = new Handler();
         consumos = new ArrayList<>();
+        consumoInstantaneoAndamento = (TextView)findViewById(R.id.txtConsumoInstantaneoAndamento);
 
         radGroup.setOnCheckedChangeListener(onCheckedChangeListener);
 
@@ -135,11 +138,11 @@ public class ConsumoInstantaneo extends AppCompatActivity
                     setaJanela.setImageResource(R.drawable.seta_baixo);
                     setaJanela.setBackgroundColor(getResources().getColor(R.color.transparente));
                 } else {
-                    if (radioButPorPeriodo.isChecked()) {
-                        exibeCampos();
-                        setaJanela.setImageResource(R.drawable.seta_cima);
-                        setaJanela.setBackgroundColor(getResources().getColor(R.color.transparente));
-                    }
+//                    if (radioButPorPeriodo.isChecked()) {
+//                        exibeCampos();
+//                        setaJanela.setImageResource(R.drawable.seta_cima);
+//                        setaJanela.setBackgroundColor(getResources().getColor(R.color.transparente));
+//                    }
                     if (radioButTempoReal.isChecked()) {
                         exibeCampos2();
                         setaJanela.setImageResource(R.drawable.seta_cima);
@@ -155,6 +158,7 @@ public class ConsumoInstantaneo extends AppCompatActivity
                 dialog.setMessage("Carregando...");
                 dialog.setCancelable(false);
                 dialog.show();
+                consumoInstantaneoAndamento.setVisibility(View.VISIBLE);
 
                 handler.post(new UpdateData());
             }
@@ -164,6 +168,7 @@ public class ConsumoInstantaneo extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 handler.removeCallbacksAndMessages(null);
+                consumoInstantaneoAndamento.setVisibility(View.GONE);
                 Toast.makeText(getBaseContext(), "Consumo instantâneo finalizado", Toast.LENGTH_LONG).show();
             }
         });
@@ -175,16 +180,16 @@ public class ConsumoInstantaneo extends AppCompatActivity
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch (checkedId) {
-                case R.id.radioButPorPeriodo:
-                    exibeCampos();
-                    escondeCampos2();
-                    setaJanela.setImageResource(R.drawable.seta_cima);
-                    setaJanela.setBackgroundColor(getResources().getColor(R.color.transparente));
-                    break;
+//                case R.id.radioButPorPeriodo:
+//                    exibeCampos();
+//                    escondeCampos2();
+//                    setaJanela.setImageResource(R.drawable.seta_cima);
+//                    setaJanela.setBackgroundColor(getResources().getColor(R.color.transparente));
+//                    break;
                 case R.id.radioButTempoReal:
                     exibeCampos2();
                     escondeCampos();
-                    setaJanela.setImageResource(R.drawable.seta_baixo);
+                    setaJanela.setImageResource(R.drawable.seta_cima);
                     setaJanela.setBackgroundColor(getResources().getColor(R.color.transparente));
                     break;
             }
@@ -192,20 +197,20 @@ public class ConsumoInstantaneo extends AppCompatActivity
     };
 
     public void exibeCampos() {
-        edtTxtDataInicio.setVisibility(View.VISIBLE);
-        edtTxtDataFim.setVisibility(View.VISIBLE);
-        edtTxtHorarioInicio.setVisibility(View.VISIBLE);
-        edtTxtHorarioFim.setVisibility(View.VISIBLE);
-        btnOk.setVisibility(View.VISIBLE);
+//        edtTxtDataInicio.setVisibility(View.VISIBLE);
+//        edtTxtDataFim.setVisibility(View.VISIBLE);
+//        edtTxtHorarioInicio.setVisibility(View.VISIBLE);
+//        edtTxtHorarioFim.setVisibility(View.VISIBLE);
+//        btnOk.setVisibility(View.VISIBLE);
         visivel = true;
     }
 
     public void escondeCampos() {
-        edtTxtDataInicio.setVisibility(View.GONE);
-        edtTxtDataFim.setVisibility(View.GONE);
-        edtTxtHorarioInicio.setVisibility(View.GONE);
-        edtTxtHorarioFim.setVisibility(View.GONE);
-        btnOk.setVisibility(View.GONE);
+//        edtTxtDataInicio.setVisibility(View.GONE);
+//        edtTxtDataFim.setVisibility(View.GONE);
+//        edtTxtHorarioInicio.setVisibility(View.GONE);
+//        edtTxtHorarioFim.setVisibility(View.GONE);
+//        btnOk.setVisibility(View.GONE);
         visivel = false;
     }
 

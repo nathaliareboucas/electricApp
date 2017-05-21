@@ -33,12 +33,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <RadioButton
+                    <!--<RadioButton
                         android:id="@+id/radioButPorPeriodo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/porPeriodo"
-                        android:layout_marginRight="20dp"/>
+                        android:layout_marginRight="20dp"/>-->
 
                     <RadioButton
                         android:id="@+id/radioButTempoReal"
@@ -56,14 +56,14 @@
             </TableRow>
         </TableLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:id="@+id/layoutPorPeriodo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="5dp">-->
 
-            <TableLayout
+<!--            <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:stretchColumns="*">
@@ -92,9 +92,9 @@
                         android:hint="Data fim"
                         android:visibility="gone"/>
                 </TableRow>
-            </TableLayout>
+            </TableLayout>-->
 
-            <TableLayout
+<!--            <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:stretchColumns="*">
@@ -123,9 +123,9 @@
                         android:textAlignment="center"
                         android:visibility="gone"/>
                 </TableRow>
-            </TableLayout>
+            </TableLayout>-->
 
-            <Button
+          <!--  <Button
                 android:id="@+id/btnOk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,8 +133,8 @@
                 android:background="@color/colorPrimary"
                 android:layout_gravity="end"
                 android:layout_marginTop="10dp"
-                android:visibility="gone"/>
-        </LinearLayout>
+                android:visibility="gone"/>-->
+        <!--</LinearLayout>-->
 
         <TableLayout
             android:layout_width="match_parent"
@@ -162,6 +162,14 @@
             </TableRow>
         </TableLayout>
     </TableLayout>
+
+    <TextView
+        android:id="@+id/txtConsumoInstantaneoAndamento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Consumo instantâneo em andamento..."
+        android:visibility="gone"/>
 
     <ScrollView
         android:layout_width="match_parent"
