@@ -67,12 +67,12 @@ public class AmbientesActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        btnEdt1 = (ImageButton)findViewById(R.id.btnEdt1);
-        btnEdt2 = (ImageButton)findViewById(R.id.btnEdt2);
-        btnEdt3 = (ImageButton)findViewById(R.id.btnEdt3);
-        btnEdt4 = (ImageButton)findViewById(R.id.btnEdt4);
-        btnEdt5 = (ImageButton)findViewById(R.id.btnEdt5);
-        btnEdt6 = (ImageButton)findViewById(R.id.btnEdt6);
+//        btnEdt1 = (ImageButton)findViewById(R.id.btnEdt1);
+//        btnEdt2 = (ImageButton)findViewById(R.id.btnEdt2);
+//        btnEdt3 = (ImageButton)findViewById(R.id.btnEdt3);
+//        btnEdt4 = (ImageButton)findViewById(R.id.btnEdt4);
+//        btnEdt5 = (ImageButton)findViewById(R.id.btnEdt5);
+//        btnEdt6 = (ImageButton)findViewById(R.id.btnEdt6);
 
         lampada1 = (ImageButton)findViewById(R.id.lampada1);
         lampada2 = (ImageButton)findViewById(R.id.lampada2);
