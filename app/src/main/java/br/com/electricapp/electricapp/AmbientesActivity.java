@@ -330,13 +330,15 @@ public class AmbientesActivity extends AppCompatActivity
             it.putExtra("base_url", base_url);
             startActivity(it);
             finish();
-        }else if (id == R.id.nav_bandeiras) {
-
-        } else if (id == R.id.nav_consumo_aparelho) {
-
-        } else if (id == R.id.nav_alerta) {
-
-        }else if (id == R.id.nav_sair) {
+        }
+//        else if (id == R.id.nav_bandeiras) {
+//
+//        } else if (id == R.id.nav_consumo_aparelho) {
+//
+//        } else if (id == R.id.nav_alerta) {
+//
+//        }
+        else if (id == R.id.nav_sair) {
             SharedPreferences prefs = getSharedPreferences("configuracoes", MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("login", "");
