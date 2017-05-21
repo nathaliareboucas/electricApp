@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
@@ -44,6 +45,7 @@ public class ConsumoActivity extends AppCompatActivity
     private ImageButton imgBtnBandeiraVermelha;
     private ImageButton imgBtnBandeiraAmarela;
     private ImageButton imgBtnBandeiraVerde;
+    private ImageView imgViewBandeira;
 
     BigDecimal consumoMes;
     Leitura leituraMedicao;
@@ -99,11 +101,13 @@ public class ConsumoActivity extends AppCompatActivity
         imgBtnBandeiraVermelha = (ImageButton)findViewById(R.id.imgBtnBandeiraVermelha);
         imgBtnBandeiraAmarela = (ImageButton)findViewById(R.id.imgBtnBandeiraAmarela);
         imgBtnBandeiraVerde = (ImageButton)findViewById(R.id.imgBtnBandeiraVerde);
+        imgViewBandeira = (ImageView)findViewById(R.id.imgViewBandeira);
 
         imgBtnBandeiraVermelha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 txtBandeira.setText("Vermelha");
+                imgViewBandeira.setImageResource(R.drawable.bandeira_vermelha);
                 txtValorTarifa.setText("0.73033");
 
                 BigDecimal valorTarifa = new BigDecimal(txtValorTarifa.getText().toString());
@@ -120,6 +124,7 @@ public class ConsumoActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 txtBandeira.setText("Amarela ");
+                imgViewBandeira.setImageResource(R.drawable.bandeira_amarela);
                 txtValorTarifa.setText("0.72452");
 
                 BigDecimal valorTarifa = new BigDecimal(txtValorTarifa.getText().toString());
@@ -136,6 +141,7 @@ public class ConsumoActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 txtBandeira.setText("Verde   ");
+                imgViewBandeira.setImageResource(R.drawable.bandeira_verde);
                 txtValorTarifa.setText("0.50787");
 
                 BigDecimal valorTarifa = new BigDecimal(txtValorTarifa.getText().toString());

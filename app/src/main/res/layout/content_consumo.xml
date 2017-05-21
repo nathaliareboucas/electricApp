@@ -113,6 +113,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/imgViewBandeira"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/flag_36_36"/>
